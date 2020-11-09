@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "baeaad0c-aec4-4c92-aaf0-93a30e662293",
+		"name": "Userify_Scenario2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06a9ef17-fe49-4e93-91e3-3dd9e155c7fa",
+						"exec": [
+							"pm.test(\"Global set of project_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"com_id\", jsonData.company_id);\r",
+							"  \r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\":\"Service Based Company\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.userify.com/api/userify/company",
+					"protocol": "https",
+					"host": [
+						"api",
+						"userify",
+						"com"
+					],
+					"path": [
+						"api",
+						"userify",
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invite 5 different users to the company group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "66cbbc1d-9cfe-4064-9da8-53c12ea09cf9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.userify.com/api/userify/invitation/company_id/{{com_id}}/email/{{email}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"userify",
+						"com"
+					],
+					"path": [
+						"api",
+						"userify",
+						"invitation",
+						"company_id",
+						"{{com_id}}",
+						"email",
+						"{{email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add user ID to company usergroup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8dbf9fa7-c818-40be-98c9-e41f45021ad1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.userify.com/api/userify/usergroup/company_id/{{com_id}}/usergroup/company_admins/user_id/cZ3SU2Bm3xRVASaR3HRMuV_user",
+					"protocol": "https",
+					"host": [
+						"api",
+						"userify",
+						"com"
+					],
+					"path": [
+						"api",
+						"userify",
+						"usergroup",
+						"company_id",
+						"{{com_id}}",
+						"usergroup",
+						"company_admins",
+						"user_id",
+						"cZ3SU2Bm3xRVASaR3HRMuV_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all the users in the newly created company group and verify",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58b76ef9-5981-4340-85d1-adecd2ed0909",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let jsonData = pm.response.json();\r",
+							"pm.test(\"Verify username\", function () { \r",
+							"    pm.expect(jsonData.active.cZ3SU2Bm3xRVASaR3HRMuV_user.username).to.equal(\"karthiktest\"); \r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify username\", function () { \r",
+							"    pm.expect(jsonData.inactive.umiQBb3xP9SKy4ytNmgUuG_user.username).to.equal(\"service1\"); \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{userifyurl}}/api/userify/users/company_id/xFeU2Ni6yxQbHNs6is9BLT_company/usergroup/company_admins",
+					"host": [
+						"{{userifyurl}}"
+					],
+					"path": [
+						"api",
+						"userify",
+						"users",
+						"company_id",
+						"xFeU2Ni6yxQbHNs6is9BLT_company",
+						"usergroup",
+						"company_admins"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "karthiktest",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "test49test49",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "51bfd033-733e-404c-92e7-2f380e3f0f1e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cf0947d8-4292-4c9b-b3cc-bda0a2843e57",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

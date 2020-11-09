@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "0b80be47-ce8b-4d13-b841-79843dde2e22",
+		"name": "Userify_Scenario1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "365affc6-371d-43a6-82d4-ee4784d0b9a1",
+						"exec": [
+							"pm.test(\"Global set of project_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"pro_id\", jsonData.project_id);\r",
+							"  \r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\":\"New Project\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{userifyurl}}/api/userify/project/company_id/cbwqsdfgD6f6r32FpBe2BR_company",
+					"host": [
+						"{{userifyurl}}"
+					],
+					"path": [
+						"api",
+						"userify",
+						"project",
+						"company_id",
+						"cbwqsdfgD6f6r32FpBe2BR_company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create child project for the newly created project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5846328-3365-4878-9be5-7bf8394b88e8",
+						"exec": [
+							"pm.test(\"Global set of child project_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"childpro_id\", jsonData.project_id);\r",
+							"  \r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\" : \"Web Based Servers\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{userifyurl}}/api/userify/project/company_id/cbwqsdfgD6f6r32FpBe2BR_company/parent_project_id/{{pro_id}}",
+					"host": [
+						"{{userifyurl}}"
+					],
+					"path": [
+						"api",
+						"userify",
+						"project",
+						"company_id",
+						"cbwqsdfgD6f6r32FpBe2BR_company",
+						"parent_project_id",
+						"{{pro_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List project roles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "266d0cf9-ba80-4ea6-badf-8756527c1383",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.userify.com/api/userify/roles/company_id/pLgS7bS7cciqFBv6wKq6dK_company",
+					"protocol": "https",
+					"host": [
+						"api",
+						"userify",
+						"com"
+					],
+					"path": [
+						"api",
+						"userify",
+						"roles",
+						"company_id",
+						"pLgS7bS7cciqFBv6wKq6dK_company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all the different permissions available for project for all roles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d2892f0-1f8d-46d7-8715-5b2a096097b3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.userify.com/api/userify/role/company_id/pLgS7bS7cciqFBv6wKq6dK_company/project_id/{{childpro_id}}/role/linux_root",
+					"protocol": "https",
+					"host": [
+						"api",
+						"userify",
+						"com"
+					],
+					"path": [
+						"api",
+						"userify",
+						"role",
+						"company_id",
+						"pLgS7bS7cciqFBv6wKq6dK_company",
+						"project_id",
+						"{{childpro_id}}",
+						"role",
+						"linux_root"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List different usergroup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20d1f9ad-e64a-4f1d-a896-7dba19f0bf20",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{userifyurl}}/api/userify/usergroups/company_id/pLgS7bS7cciqFBv6wKq6dK_company",
+					"host": [
+						"{{userifyurl}}"
+					],
+					"path": [
+						"api",
+						"userify",
+						"usergroups",
+						"company_id",
+						"pLgS7bS7cciqFBv6wKq6dK_company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List different user groups and the users for each group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d62d53c0-5a1a-4469-b8fb-ef5b8c5bd942",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usergroup\": \"{{usergroup}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{userifyurl}}/api/userify/users/company_id/cbwqsdfgD6f6r32FpBe2BR_company/usergroup/{{usergroup}}",
+					"host": [
+						"{{userifyurl}}"
+					],
+					"path": [
+						"api",
+						"userify",
+						"users",
+						"company_id",
+						"cbwqsdfgD6f6r32FpBe2BR_company",
+						"usergroup",
+						"{{usergroup}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "karthiktest",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "test49test49",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5779377e-1fc6-4587-9a7a-4688bd2cc322",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "02baa4f0-3be4-4b43-ad45-ecd4257b741d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
